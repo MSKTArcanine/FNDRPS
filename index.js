@@ -6,63 +6,40 @@ function getComputerChoice(){
     console.log(computerChose);
     return choiceList[computerChose];
 }
-
-//player function
-function getPlayerChoice(){
-    do{playerChose = prompt("RPS ?")
-console.log(playerChose)}
-    while(!playerCheck(playerChose))
-    return playerChose;
-}
-function playerCheck(str){
-    switch (str){
-        case "Rock":
-            case "Paper":
-                case "Scissors":return true;
-                break;
-        default:return false;
-    }
-}
 //Funct playround
-function playRound(playerSelection, computerSelection){
+function playRound(btnPlayerChose, computerSelection){
     //Player win : R > S; S > P; P > R
-    switch(playerSelection){
-        case "Rock":if(computerSelection == "Scissors"){winner = "P"; return console.log("P Win")};
+    switch(btnPlayerChose){
+        case "Rock":if(computerSelection == "Scissors"){winner = "P"; winnerFx(winner); return console.log("P Win")};
         break;
-        case "Paper":if(computerSelection == "Rock"){winner = "P"; return console.log("P Win")};
+        case "Paper":if(computerSelection == "Rock"){winner = "P"; winnerFx(winner); return console.log("P Win")};
         break;
-        case "Scissors":if(computerSelection == "Paper"){winner = "P"; return console.log("P Win")};
+        case "Scissors":if(computerSelection == "Paper"){winner = "P"; winnerFx(winner); return console.log("P Win")};
         break;
     }
     //Computer win : pareil
     switch(computerSelection){
-        case "Rock":if(playerSelection == "Scissors"){ winner = "C"; return console.log("C Win")};
+        case "Rock":if(btnPlayerChose == "Scissors"){ winner = "C"; winnerFx(winner); return console.log("C Win")};
         break;
-        case "Paper":if(playerSelection == "Rock"){ winner = "C"; return console.log("C Win")};
+        case "Paper":if(btnPlayerChose == "Rock"){ winner = "C"; winnerFx(winner); return console.log("C Win")};
         break;
-        case "Scissors":if(playerSelection == "Paper"){ winner = "C"; return console.log("C Win")};
+        case "Scissors":if(btnPlayerChose == "Paper"){ winner = "C"; winnerFx(winner); return console.log("C Win")};
         break;
     }
-    winner = null;
-    return console.log(`${playerSelection} vs ${computerSelection} : TIE !`)
+    winner = null; winnerFx(winner);
+    return console.log(`${btnPlayerChose} vs ${computerSelection} : TIE !`)
 }
-//Round :
-//game :
-function game(){
-    let compScore = 0;
-    let playerScore = 0;
-    let count = 0;
-    
-    while(count<5){
-        let computerChose = getComputerChoice();
-        let playerChose = getPlayerChoice();
-        playRound(playerChose, computerChose);
-        console.log("winner = " + winner);
-        if(winner == "C") compScore += 1;
-        if(winner == "P") playerScore += 1;
-        count++;
-    }
-    console.log("C" + compScore);
-    console.log("P" + playerScore)
+const buttonRock = document.getElementById("btnRock");
+buttonRock.addEventListener("click",function(){playRound("Rock", getComputerChoice())});
+const buttonPaper = document.getElementById("btnPaper");
+buttonPaper.addEventListener("click",function(){playRound("Paper", getComputerChoice())});
+const buttonScissors = document.getElementById("btnScissors");
+buttonScissors.addEventListener("click",function(){playRound("Scissors", getComputerChoice())});
+
+function winnerFx(w){
+    const para = document.createElement("p");
+    if(document.getElementById("d3").childNodes.length > 0)
+    document.getElementById("d3").removeChild(document.getElementById("d3").childNodes[0]);
+    para.textContent = w;
+    document.getElementById("d3").appendChild(para);
 }
-game();
